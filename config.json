@@ -1,0 +1,10 @@
+{
+    "delay": 1800,
+    "domain": "",
+    "subDomain": "",
+    "OVHClient": {
+        "application_key": "",
+        "application_secret": "",
+        "consumer_key": ""
+    }
+}
