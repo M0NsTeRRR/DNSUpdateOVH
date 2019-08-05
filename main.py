@@ -75,19 +75,16 @@ def getIP(url):
         raise Exception('Can\'t get IP from : {url}'.format(url))
 
 # get configuration from environment variables
-try:
-    config = {
-        "delay": environ.get("UPDATEDNS_DELAY", ""),
-        "domain": environ.get("UPDATEDNS_DOMAIN", ""),
-        "subDomain": environ.get("UPDATEDNS_SUBDOMAIN", ""),
-        "OVHClient": {
-            "application_key": environ.get("UPDATEDNS_APP_KEY", ""),
-            "application_secret": environ.get("UPDATEDNS_APP_SECRET", ""),
-            "consumer_key": environ.get("UPDATEDNS_APP_CONSUMER_KEY", "")
-        }
+config = {
+    "delay": int(environ.get("UPDATEDNS_DELAY", "1800")),
+    "domain": environ.get("UPDATEDNS_DOMAIN", ""),
+    "subDomain": environ.get("UPDATEDNS_SUBDOMAIN", ""),
+    "OVHClient": {
+        "application_key": environ.get("UPDATEDNS_APP_KEY", ""),
+        "application_secret": environ.get("UPDATEDNS_APP_SECRET", ""),
+        "consumer_key": environ.get("UPDATEDNS_APP_CONSUMER_KEY", "")
     }
-except Exception as e:
-    pass
+}
 
 # get configuration from file
 try:
