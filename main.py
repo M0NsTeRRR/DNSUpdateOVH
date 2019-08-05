@@ -36,7 +36,8 @@
 # ----------------------------------------------------------------------------
 
 import logging
-import json
+from os import environ
+from json import load
 from requests import get
 from datetime import datetime
 from time import sleep
@@ -73,18 +74,37 @@ def getIP(url):
     else:
         raise Exception('Can\'t get IP from : {url}'.format(url))
 
-# get configuration
+# get configuration from environment variables
+try:
+    config = {
+        "delay": environ.get("UPDATEDNS_DELAY", ""),
+        "domain": environ.get("UPDATEDNS_DOMAIN", ""),
+        "subDomain": environ.get("UPDATEDNS_SUBDOMAIN", ""),
+        "OVHClient": {
+            "application_key": environ.get("UPDATEDNS_APP_KEY", ""),
+            "application_secret": environ.get("UPDATEDNS_APP_SECRET", ""),
+            "consumer_key": environ.get("UPDATEDNS_APP_CONSUMER_KEY", "")
+        }
+    }
+except Exception as e:
+    pass
+
+# get configuration from file
 try:
     with open('config.json') as json_data_file:
-        config = json.load(json_data_file)
+        config.update(load(json_data_file))
+except Exception as e:
+    pass
+
+try:
     if "delay" not in config or 60 <= config["delay"] >= 3600:
         raise Exception("config.json not filled properly")
-    if "domain" not in config or not isinstance(config["domain"], str):
+    if "domain" not in config or not isinstance(config["domain"], str) or len(config["domain"]) == 0:
         raise Exception("config.json not filled properly")
     if "subDomain" not in config or not isinstance(config["subDomain"], str):
         raise Exception("config.json not filled properly")
     for OVHInfo in ["application_key", "application_secret", "consumer_key"]:
-        if OVHInfo not in config["OVHClient"] or not isinstance(config["OVHClient"][OVHInfo], str):
+        if OVHInfo not in config["OVHClient"] or not isinstance(config["OVHClient"][OVHInfo], str) or len(config["OVHClient"][OVHInfo]) == 0:
             raise Exception("config.json not filled properly")
 except Exception as e:
     logger.error("{error}".format(error=e))
