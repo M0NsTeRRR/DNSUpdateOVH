@@ -40,7 +40,7 @@ from os import environ
 from json import load
 from requests import get
 from time import sleep
-from sys import sys_exit
+from sys import exit as sys_exit
 
 import ovh
 

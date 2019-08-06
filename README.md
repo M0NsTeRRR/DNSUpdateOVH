@@ -1,6 +1,6 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/eb23e0851b5341ac933dddbb331940eb)](https://www.codacy.com/app/M0NsTeRRR/DNSUpdateOVH?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=M0NsTeRRR/DNSUpdateOVH&amp;utm_campaign=Badge_Grade)
-![Docker Automated build](https://img.shields.io/docker/cloud/automated/monsterrr/dnsupdateovh?style=flat-square)
-![Docker Build Status](https://img.shields.io/docker/cloud/build/monsterrr/dnsupdateovh?style=flat-square)
+[![Docker Automated build](https://img.shields.io/docker/cloud/automated/monsterrr/dnsupdateovh?style=flat-square)](https://hub.docker.com/r/monsterrr/dnsupdateovh)
+[![Docker Build Status](https://img.shields.io/docker/cloud/build/monsterrr/dnsupdateovh?style=flat-square)](https://hub.docker.com/r/monsterrr/dnsupdateovh)
 
 The goal of this project is to update your DNS entries on OVH using OVH API. Feel free to update it to your use case.
 
@@ -11,7 +11,6 @@ The goal of this project is to update your DNS entries on OVH using OVH API. Fee
 
 #### Docker
 - Docker CE
-- Docker-compose
 
 ## Install
 
@@ -23,15 +22,10 @@ Fill config.json with your informations (delay : delay between each check of you
 Start the script `python main.py`
 
 ### Docker
-Fill environment variables on docker-compose.yml : 
-- UPDATEDNS_DELAY
-- UPDATEDNS_DOMAIN
-- UPDATEDNS_SUBDOMAIN
-- UPDATEDNS_APP_KEY
-- UPDATEDNS_APP_SECRET
-- UPDATEDNS_APP_CONSUMER_KEY
 
-Start the container `docker-compose up`
+Fill environment variable
+
+`docker run -d --restart=always -e "UPDATEDNS_DELAY=" -e "UPDATEDNS_DOMAIN=" -e "UPDATEDNS_SUBDOMAIN=" -e "UPDATEDNS_APP_KEY=" -e "UPDATEDNS_APP_SECRET=" -e "UPDATEDNS_APP_CONSUMER_KEY=" monsterrr/dnsupdateovh:latest`
 
 # Licence
 
