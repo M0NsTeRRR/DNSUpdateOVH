@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/eb23e0851b5341ac933dddbb331940eb)](https://www.codacy.com/app/M0NsTeRRR/DNSUpdateOVH?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=M0NsTeRRR/DNSUpdateOVH&amp;utm_campaign=Badge_Grade)
 ![Docker Automated build](https://img.shields.io/docker/cloud/automated/monsterrr/dnsupdateovh?style=flat-square)
 ![Docker Build Status](https://img.shields.io/docker/cloud/build/monsterrr/dnsupdateovh?style=flat-square)
 

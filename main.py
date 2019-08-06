@@ -39,9 +39,8 @@ import logging
 from os import environ
 from json import load
 from requests import get
-from datetime import datetime
 from time import sleep
-from sys import exit
+from sys import sys_exit
 
 import ovh
 
@@ -72,7 +71,7 @@ def getIP(url):
     if r.status_code == 200:
         return r.text.strip()
     else:
-        raise Exception('Can\'t get IP from : {url}'.format(url))
+        raise Exception('Can\'t get IP from : {url}'.format(url=url))
 
 # get configuration from environment variables
 config = {
@@ -90,8 +89,11 @@ config = {
 try:
     with open('config.json') as json_data_file:
         config.update(load(json_data_file))
-except Exception as e:
+except FileNotFoundError:
     pass
+except Exception as e:
+    logger.error("{error}".format(error=e))
+    sys_exit(1)
 
 try:
     if "delay" not in config or 60 <= config["delay"] >= 3600:
@@ -105,7 +107,7 @@ try:
             raise Exception("config.json not filled properly")
 except Exception as e:
     logger.error("{error}".format(error=e))
-    exit(1)
+    sys_exit(1)
 
 
 try:
@@ -120,7 +122,7 @@ try:
     )
 
     # Get record
-    records = client.get('/domain/zone/' + config["domain"] + '/record', 
+    records = client.get('/domain/zone/' + config["domain"] + '/record',
         fieldType='A', # Filter the value of fieldType property (like) (type: zone.NamedResolutionFieldTypeEnum)
         subDomain='', # Filter the value of subDomain property (like) (type: string)
     )
@@ -137,10 +139,10 @@ try:
                     logger.info("Current IP : {currentIP}".format(currentIP=currentIP))
                     recordIDFound = True
         if recordID is None or currentIP == '':
-            raise Exception("Found {nbRecords} records for {subDomain}{domain} but never found a record who match subdomain and domain".format(nbRecords=len(records), subDomain="" if config["subDomain"] == "" else config["subDomain"] + ".", domain=config["domain"]))    
+            raise Exception("Found {nbRecords} records for {subDomain}{domain} but never found a record who match subdomain and domain".format(nbRecords=len(records), subDomain="" if config["subDomain"] == "" else config["subDomain"] + ".", domain=config["domain"]))
 except Exception as e:
     logger.error("{error}".format(error=e))
-    exit(1)
+    sys_exit(1)
 
 while True:
     while not IPFound:
@@ -151,7 +153,7 @@ while True:
                     currentIP = resultIP
                     logger.info('New public IP address detected : {ip}'.format(ip=currentIP))
                     # Update record
-                    client.put('/domain/zone/' + config["domain"] + '/record/' + str(recordID), 
+                    client.put('/domain/zone/' + config["domain"] + '/record/' + str(recordID),
                         target=currentIP, # Resource record target (type: string)
                     )
                     # Refresh record (required ?)
