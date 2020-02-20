@@ -2,5 +2,5 @@
 chardet==3.0.4
 idna==2.8
 ovh==0.5.0
-requests==2.22.0
+requests==2.23.0
 urllib3==1.25.8
