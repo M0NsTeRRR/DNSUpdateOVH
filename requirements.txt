@@ -1,6 +1,6 @@
 ﻿certifi==2020.4.5.1
 chardet==3.0.4
-idna==2.8
+idna==2.9
 ovh==0.5.0
 requests==2.22.0
 urllib3==1.25.8
